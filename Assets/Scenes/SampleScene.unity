@@ -149,7 +149,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 290726309}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 700dc9cf03d7ffd459c160d7439cec35, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -655,11 +655,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
+  dashSpeed: 18
   jumpforce: 6
   groundCheckDistance: 1.4
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  dashTime: 0.2
+  dashCooldown: 0.3
 --- !u!70 &1622882701
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
