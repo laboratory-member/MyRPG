@@ -36,7 +36,10 @@ public class Player : MonoBehaviour
     private void AnimatorContollers()
     {
         bool isRunning = (rb.velocity.x != 0);
+        bool isGrounded = IsGrounded();
         anim.SetBool("isRunning", isRunning);
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetFloat("yVelocity", rb.velocity.y);
     }
 
     private void Movement()
