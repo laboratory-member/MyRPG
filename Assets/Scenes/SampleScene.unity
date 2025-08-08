@@ -133,8 +133,8 @@ GameObject:
   - component: {fileID: 290726312}
   - component: {fileID: 290726311}
   - component: {fileID: 290726310}
-  m_Layer: 0
-  m_Name: Wall
+  m_Layer: 3
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 909850108}
   - component: {fileID: 909850107}
   - component: {fileID: 909850109}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,8 +654,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc5730348a7f2746ab1f66185e2b74a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  jumpforce: 5
+  speed: 8
+  jumpforce: 6
+  groundCheckDistance: 1.4
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!70 &1622882701
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
