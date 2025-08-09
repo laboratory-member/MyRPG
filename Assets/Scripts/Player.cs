@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("isGrounded", isGrounded);
         anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetBool("isDashing", isDashing);
     }
 
     private void Movement()
