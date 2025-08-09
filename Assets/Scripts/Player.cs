@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -19,6 +20,11 @@ public class Player : MonoBehaviour
     private bool canDash = true;
     private float dashDirection;
 
+    private float comboTime = 0.3f; // Combo window time
+    private bool isattacking = false;
+    private int comboCounter=0;
+    private float comboTimer;
+
     private Rigidbody2D rb;
     private Animator anim;
     // Start is called before the first frame update
@@ -35,17 +41,26 @@ public class Player : MonoBehaviour
 
         CheckInput();
 
+        CheckTime();
+
         AnimatorContollers();
     }
 
     private void CheckInput()
     {
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.K))&&IsGrounded() )   Jump();
-        if (Input.GetKeyDown(KeyCode.L) && canDash && !isDashing)
+        if (Input.GetKeyDown(KeyCode.L) && canDash && !isDashing)   StartCoroutine(Dash());
+        if (Input.GetKeyDown(KeyCode.J) && IsGrounded())
         {
-            Debug.Log("Dash input detected");
-            StartCoroutine(Dash());
+            isattacking = true;
+            comboTimer = comboTime; // 重置连击计时器
         }
+    }
+
+    private void CheckTime()
+    {
+        comboTimer -= Time.deltaTime;
+        if (comboTimer < 0) comboCounter = 0;
     }
 
     private void AnimatorContollers()
@@ -56,11 +71,19 @@ public class Player : MonoBehaviour
         anim.SetBool("isGrounded", isGrounded);
         anim.SetFloat("yVelocity", rb.velocity.y);
         anim.SetBool("isDashing", isDashing);
+        anim.SetBool("isAttacking", isattacking);
+        anim.SetInteger("comboCounter", comboCounter);
     }
 
     private void Movement()
     {
-        if (isDashing) return; // 冲刺时不走普通移动
+        if (isDashing) return;
+        if (isattacking)
+        {
+            // 如果正在攻击，禁止移动
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }    
         xinput = Input.GetAxisRaw("Horizontal");
         // Debug.Log("X Input: " + xinput);
         rb.velocity = new Vector2(xinput * speed, rb.velocity.y);
@@ -104,5 +127,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
         Debug.Log("Dash ended");
+    }
+
+    public void AttackOver()
+    {
+        isattacking = false;
+        comboCounter++;
+        if (comboCounter > 2) comboCounter = 0;
     }
 }
